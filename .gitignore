@@ -1,0 +1,9 @@
+# binaries
+git-updater
+git-updater.exe
+dist/
+
+# editors
+.idea/
+.vscode/
+.DS_Store
