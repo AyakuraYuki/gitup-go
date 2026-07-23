@@ -15,8 +15,6 @@ import (
 	"github.com/AyakuraYuki/gitup-go/internal/updater"
 )
 
-const version = "0.0.1"
-
 const usage = `usage: git-updater [-t n] [-c] [-f] [-p] [-h] [-v] [path ...]
 
 easily update multiple git repositories at once
