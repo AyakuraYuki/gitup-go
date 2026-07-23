@@ -15,6 +15,8 @@ import (
 	"github.com/AyakuraYuki/gitup-go/internal/updater"
 )
 
+const binaryName = "git-updater"
+
 const usage = `usage: git-updater [-t n] [-c] [-f] [-p] [-h] [-v] [path ...]
 
 easily update multiple git repositories at once
@@ -42,7 +44,7 @@ func main() {
 	var opts updater.Options
 	var showVersion, showHelp bool
 
-	flags := flag.NewFlagSet("git-updater", flag.ContinueOnError)
+	flags := flag.NewFlagSet(binaryName, flag.ContinueOnError)
 	flags.Usage = func() { fmt.Println(usage) }
 	flags.IntVarP(&opts.MaxDepth, "depth", "t", 3, "max recursion depth")
 	flags.BoolVarP(&opts.CurrentOnly, "current-only", "c", false, "only fetch the remote tracked by the current branch")
@@ -59,7 +61,7 @@ func main() {
 		return
 	}
 	if showVersion {
-		fmt.Printf("git-updater %s (%s)\n", version, runtime.Version())
+		fmt.Printf("%s %s (%s)\n", binaryName, version, runtime.Version())
 		return
 	}
 
@@ -72,7 +74,7 @@ func main() {
 	}()
 
 	bold := color.New(color.Bold).SprintFunc()
-	fmt.Printf("%s: the git-repo-updater without bookmark\n\n", bold("[git-updater]"))
+	fmt.Printf("%s: the git-repo-updater without bookmark\n\n", bold("["+binaryName+"]"))
 
 	updater.UpdateDirectories(flags.Args(), opts)
 }
