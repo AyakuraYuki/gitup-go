@@ -47,26 +47,26 @@ func (p *progressPrinter) update(phase, cur, total string) {
 	}
 	if phase != p.phase {
 		if p.started {
-			io.WriteString(p.w, ", ")
+			_, _ = io.WriteString(p.w, ", ")
 		} else {
-			io.WriteString(p.w, " (")
+			_, _ = io.WriteString(p.w, " (")
 			p.started = true
 		}
 		p.phase = phase
 		p.lastLen = 0
 	}
 	text := cur + "/" + total
-	io.WriteString(p.w, strings.Repeat("\b", p.lastLen)+text)
+	_, _ = io.WriteString(p.w, strings.Repeat("\b", p.lastLen)+text)
 	// blank out leftovers in case the new text is shorter than the previous one
 	if pad := p.lastLen - len(text); pad > 0 {
-		io.WriteString(p.w, strings.Repeat(" ", pad)+strings.Repeat("\b", pad))
+		_, _ = io.WriteString(p.w, strings.Repeat(" ", pad)+strings.Repeat("\b", pad))
 	}
 	p.lastLen = len(text)
 }
 
 func (p *progressPrinter) finish() {
 	if p.started {
-		io.WriteString(p.w, ")")
+		_, _ = io.WriteString(p.w, ")")
 		p.started = false
 	}
 }

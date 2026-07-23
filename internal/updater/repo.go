@@ -125,7 +125,7 @@ func fetchRemotes(path string, remotes []string, prune bool) {
 // An empty result means everything was already up to date.
 func parseFetchOutput(output, remote string) string {
 	var newBranches, newTags, updates []string
-	for _, line := range strings.Split(output, "\n") {
+	for line := range strings.SplitSeq(output, "\n") {
 		m := fetchLineRe.FindStringSubmatch(line)
 		if m == nil {
 			continue

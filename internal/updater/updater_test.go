@@ -19,7 +19,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestIsComment(t *testing.T) {
-	cases := []struct {
+	tests := []struct {
 		in   string
 		want bool
 	}{
@@ -28,9 +28,9 @@ func TestIsComment(t *testing.T) {
 		{"/some/path", false},
 		{"path # not leading", false},
 	}
-	for _, c := range cases {
-		if got := isComment(c.in); got != c.want {
-			t.Errorf("isComment(%q) = %v, want %v", c.in, got, c.want)
+	for _, tt := range tests {
+		if got := isComment(tt.in); got != tt.want {
+			t.Errorf("isComment(%q) = %v, want %v", tt.in, got, tt.want)
 		}
 	}
 }
@@ -44,7 +44,7 @@ func TestGetComment(t *testing.T) {
 func TestGetBasename(t *testing.T) {
 	sep := string(os.PathSeparator)
 	base := sep + filepath.Join("home", "user", "repos")
-	cases := []struct {
+	tests := []struct {
 		path string
 		want string
 	}{
@@ -52,9 +52,9 @@ func TestGetBasename(t *testing.T) {
 		{filepath.Join(base, "group", "project"), filepath.Join("group", "project")},
 		{base, "repos"},
 	}
-	for _, c := range cases {
-		if got := getBasename(base, c.path); got != c.want {
-			t.Errorf("getBasename(%q, %q) = %q, want %q", base, c.path, got, c.want)
+	for _, tt := range tests {
+		if got := getBasename(base, tt.path); got != tt.want {
+			t.Errorf("getBasename(%q, %q) = %q, want %q", base, tt.path, got, tt.want)
 		}
 	}
 }
@@ -81,7 +81,7 @@ func TestParseFetchOutputUpToDate(t *testing.T) {
 }
 
 func TestParseProgressLine(t *testing.T) {
-	cases := []struct {
+	tests := []struct {
 		in        string
 		phase     string
 		cur, tot  string
@@ -94,11 +94,11 @@ func TestParseProgressLine(t *testing.T) {
 		{"Resolving deltas: 100% (78/78), done.", "", "", "", false},
 		{"   abc1234..def5678  main       -> origin/main", "", "", "", false},
 	}
-	for _, c := range cases {
-		phase, cur, tot, ok := parseProgressLine(c.in)
-		if ok != c.wantMatch || phase != c.phase || cur != c.cur || tot != c.tot {
+	for _, tt := range tests {
+		phase, cur, tot, ok := parseProgressLine(tt.in)
+		if ok != tt.wantMatch || phase != tt.phase || cur != tt.cur || tot != tt.tot {
 			t.Errorf("parseProgressLine(%q) = (%q, %q, %q, %v), want (%q, %q, %q, %v)",
-				c.in, phase, cur, tot, ok, c.phase, c.cur, c.tot, c.wantMatch)
+				tt.in, phase, cur, tot, ok, tt.phase, tt.cur, tt.tot, tt.wantMatch)
 		}
 	}
 }
